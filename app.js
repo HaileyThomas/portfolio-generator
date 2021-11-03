@@ -1,23 +1,29 @@
+// allows us to use inquire package
+const inquirer = require('inquirer');
+
+inquirer
+    .prompt([
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is your name?'
+        }
+    ])
+    .then(answers => console.log(answers));
+
 // allows us to use node.js fs
-const fs = require('fs');
+// const fs = require('fs');
 // allows us to use generatePage function from page-template
-const generatePage = require('./src/page-template.js');
+// const generatePage = require('./src/page-template.js');
 
-// profile data array
-const profileDataArgs = process.argv.slice(2);
-
-// extract user command-line arguments and store them into distinct variables
-// const name = profileDataArgs[0];
-// const github = profileDataArgs[1];
-// above is the same as below
-const [name, github] = profileDataArgs;
+// const pageHTML = generatePage(name, github);
 
 
-fs.writeFile('./index.html', generatePage(name, github), err => {
-    if (err) throw new Error(err);
+// fs.writeFile('./index.html', pageHTML, err => {
+//     if (err) throw err;
 
-    console.log('Portfolio complete! Check out index.html to see the output!');
-});
+//     console.log('Portfolio complete! Check out index.html to see the output!');
+// });
 
 /* EXAMPLES/CONCEPTS
 const printProfileData = profileDataArr => {
