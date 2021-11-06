@@ -1,10 +1,10 @@
-// allows us to use node.js fs
-const fs = require('fs');
 // allows us to use inquire package
 const inquirer = require('inquirer');
 // allows us to use generatePage function from page-template
 // & assigns the HTML template function to the variable generatePage
 const generatePage = require('./src/page-template.js');
+// allows us to use generateSite
+const { writeFile, copyFile } = require('./utils/generate-site.js');
 
 const promptUser = () => {
     return inquirer.prompt([
@@ -138,11 +138,20 @@ const promptProject = portfolioData => {
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
-        const pageHTML = generatePage(portfolioData);
-        fs.writeFile('./index.html', pageHTML, err => {
-            if (err) throw err;
-            console.log('Portfolio complete! Check out index.html to see the output!');
-        });
+        return generatePage(portfolioData);
+    })
+    .then(pageHTML => {
+        return writeFile(pageHTML);
+    })
+    .then(writeFileResponse => {
+        console.log(writeFileResponse);
+        return copyFile();
+    })
+    .then(copyFileResponse => {
+        console.log(copyFileResponse);
+    })
+    .catch(err => {
+        console.log(err);
     });
 
 
